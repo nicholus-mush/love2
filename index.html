@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy December - Blessings for a New Month</title>
+    <title>Blessings - Home | Faith & Hope</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -43,7 +43,6 @@
             transition: opacity 0.5s ease;
         }
         
-        /* Different flower types with different animations */
         .flower.type1 {
             animation-name: fall1;
             animation-timing-function: ease-in-out;
@@ -64,7 +63,6 @@
             animation-timing-function: ease-in;
         }
         
-        /* Different falling animations */
         @keyframes fall1 {
             0% {
                 transform: translateY(-100px) translateX(0) rotate(0deg);
@@ -157,10 +155,65 @@
             letter-spacing: 3px;
         }
         
+        .auto-date {
+            font-size: 1.3rem;
+            color: #78e08f;
+            margin-top: 5px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+        
         .subtitle {
             font-size: 1.5rem;
             color: #78e08f;
             margin-bottom: 20px;
+        }
+        
+        /* Navigation Buttons Section - FOUR BUTTONS */
+        .nav-section {
+            margin: 30px auto 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            animation: slideUp 1s ease;
+        }
+        
+        .nav-btn {
+            background: linear-gradient(145deg, rgba(120, 224, 143, 0.2), rgba(120, 224, 143, 0.05));
+            backdrop-filter: blur(10px);
+            border: 2px solid #78e08f;
+            border-radius: 60px;
+            padding: 14px 28px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            font-size: 1rem;
+            min-width: 180px;
+            justify-content: center;
+        }
+        
+        .nav-btn i {
+            font-size: 1.4rem;
+            color: #78e08f;
+            transition: all 0.3s;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-8px) scale(1.02);
+            background: linear-gradient(145deg, rgba(120, 224, 143, 0.4), rgba(120, 224, 143, 0.15));
+            border-color: #f6b93b;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .nav-btn:hover i {
+            color: #f6b93b;
+            transform: scale(1.1);
         }
         
         .main-message {
@@ -358,7 +411,6 @@
             font-size: 1.1rem;
         }
         
-        /* Music Player Styles */
         .music-player {
             position: fixed;
             bottom: 20px;
@@ -469,32 +521,36 @@
             to { text-shadow: 0 0 20px rgba(246, 185, 59, 1), 0 0 30px rgba(246, 185, 59, 0.8); }
         }
         
-        /* Responsive design */
         @media (max-width: 768px) {
             .month-title {
-                font-size: 2.5rem;
+                font-size: 2.2rem;
             }
-            
+            .auto-date {
+                font-size: 1rem;
+            }
+            .nav-btn {
+                padding: 10px 18px;
+                font-size: 0.85rem;
+                min-width: 140px;
+            }
+            .nav-btn i {
+                font-size: 1.1rem;
+            }
             .gift-container {
                 grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             }
-            
             .gift-box {
                 height: 150px;
             }
-            
             .gift-box i {
                 font-size: 2.5rem;
             }
-            
             .main-message h2 {
                 font-size: 1.8rem;
             }
-            
             .main-message p {
                 font-size: 1rem;
             }
-            
             .music-player {
                 bottom: 10px;
                 right: 10px;
@@ -503,18 +559,14 @@
                 border-radius: 30px;
                 padding: 10px 20px;
             }
-            
             .volume-control {
                 display: none;
             }
-            
-            /* Reduce number of flowers on mobile for better performance */
             .flower {
                 font-size: 1.2rem;
             }
         }
         
-        /* Adjust flower density for very large screens */
         @media (min-width: 1600px) {
             .flower {
                 font-size: 2rem;
@@ -523,20 +575,17 @@
     </style>
 </head>
 <body>
-    <!-- Audio Element -->
     <audio id="background-music" loop>
         <source src="https://orangefreesounds.com/wp-content/uploads/2023/04/Free-relaxing-background-music.mp3" type="audio/mpeg">
         <source src="https://megamusicmonkey.com/wp-content/uploads/2017/12/Peaceful-Meadow.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
     </audio>
     
-    <!-- Music Player -->
     <div class="music-player">
         <div class="music-control" id="playPauseBtn">
             <i id="playPauseIcon" class="fas fa-play"></i>
         </div>
         <div class="music-info">
-            <div class="music-title">background-music</div>
+            <div class="music-title">peaceful worship</div>
             <div class="music-status" id="musicStatus">Click to play</div>
         </div>
         <div class="volume-control">
@@ -545,21 +594,41 @@
         </div>
     </div>
     
-    <!-- Flower container covering entire screen -->
     <div class="flower-container" id="flowerContainer"></div>
     
     <div class="container">
         <header>
-            <h1 class="month-title">HAPPY DECEMBER</h1>
+            <h1 class="month-title" id="dynamicMonthTitle">HAPPY DECEMBER</h1>
+            <div class="auto-date" id="dynamicDateRange"></div>
             <p class="subtitle">A Month of Blessings and New Beginnings</p>
         </header>
         
+        <!-- FOUR CLICKABLE BUTTONS for all pages in the image (excluding index.html and README) -->
+        <div class="nav-section">
+            <a href="2309ba.html" class="nav-btn" id="morningPrayerBtn">
+                <i class="fas fa-sun"></i>
+                <span>🌅 Morning Prayer</span>
+            </a>
+            <a href="329b.html" class="nav-btn" id="eveningPrayerBtn">
+                <i class="fas fa-moon"></i>
+                <span>🌙 Evening Prayer</span>
+            </a>
+            <a href="78ade3.html" class="nav-btn" id="hopeRestorerBtn">
+                <i class="fas fa-heart"></i>
+                <span>🔥 Hope Restorer</span>
+            </a>
+            <a href="d2190.html" class="nav-btn" id="homeBlessingBtn">
+                <i class="fas fa-home"></i>
+                <span>🎁 December Blessings</span>
+            </a>
+        </div>
+        
         <main>
             <section class="main-message">
-                <h2>God's Faithfulness From January to December</h2>
-                <p>As we welcome this beautiful month of <span class="highlight">December 2025</span>, look back and see how the Almighty God has been your shield and provider from <span class="highlight">January</span> until now. Through every challenge and every joy, His hand has guided you, protected you, and kept you in His perfect will.</p>
+                <h2 id="dynamicMessageTitle">God's Faithfulness From January to December</h2>
+                <p>As we welcome this beautiful month of <span class="highlight" id="currentMonthYear"></span>, look back and see how the Almighty God has been your shield and provider from the beginning of this year until now. Through every challenge and every joy, His hand has guided you, protected you, and kept you in His perfect will.</p>
                 
-                <p>This <span class="highlight">December</span>, may you experience God's goodness in unprecedented ways. May His favor surround you like a shield, and may His peace rule in your heart. As we transition into <span class="highlight">2025 and 2026</span>, may you walk in divine health, supernatural provision, and spiritual abundance.</p>
+                <p>This <span class="highlight" id="currentMonthOnly"></span>, may you experience God's goodness in unprecedented ways. May His favor surround you like a shield, and may His peace rule in your heart. As we walk into the coming seasons, may you walk in divine health, supernatural provision, and spiritual abundance.</p>
                 
                 <p>Remember that the same God who brought you through this year is already ahead of you, preparing the way. He has great plans for your life—plans to prosper you and not to harm you, plans to give you hope and a future (Jeremiah 29:11).</p>
             </section>
@@ -569,7 +638,6 @@
                 <p style="margin-bottom: 30px; font-size: 1.2rem;">Click on each gift box to receive a Bible verse and words of wisdom</p>
                 
                 <div class="gift-container" id="giftContainer">
-                    <!-- Gift boxes will be generated by JavaScript -->
                 </div>
             </section>
             
@@ -584,64 +652,91 @@
                     <div class="thank-item"><b>To My Colleagues and Partners</b></div>
                 </div>
                        
-                
                 <h2 class="almighty">And Most of All, To The Almighty God!</h2>
                 <p style="font-size: 1.3rem; margin-top: 20px; line-height: 1.6;">Thank you for your unconditional love, your endless mercy, and your faithfulness that never ceases. All glory, honor, and praise belong to you alone!</p>
             </section>
         </main>
         
         <footer>
-            <p>May December 2025 to Jan 2026 be filled with God's abundant blessings, joy, and peace that surpasses all understanding.</p>
-            <p style="margin-top: 10px;">© Happy December Blessings | Wishing you God's best through 2026</p>
+            <p id="footerBlessing">May this season be filled with God's abundant blessings, joy, and peace that surpasses all understanding.</p>
+            <p style="margin-top: 10px;">© Daily Blessings | Walking in faith through every season</p>
         </footer>
     </div>
     
-    <!-- Gift content modals -->
     <div id="giftModals"></div>
 
     <script>
-        // Create abundant falling flowers covering the entire page
+        // ========== AUTO-UPDATING MONTH & YEAR ==========
+        function updateDates() {
+            const now = new Date();
+            const currentYear = now.getFullYear();
+            const nextYear = currentYear + 1;
+            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            const currentMonth = monthNames[now.getMonth()];
+            const currentMonthUpper = currentMonth.toUpperCase();
+            
+            // Update main title
+            const monthTitle = document.getElementById('dynamicMonthTitle');
+            if (monthTitle) monthTitle.textContent = `HAPPY ${currentMonthUpper}`;
+            
+            // Update date range display (e.g., "January 2025 → February 2026")
+            const dateRangeSpan = document.getElementById('dynamicDateRange');
+            if (dateRangeSpan) {
+                dateRangeSpan.textContent = `${currentMonth} ${currentYear} — Walking in Faith`;
+            }
+            
+            // Update highlighted month in paragraphs
+            const currentMonthSpans = document.querySelectorAll('#currentMonthYear, #currentMonthOnly');
+            currentMonthSpans.forEach(span => {
+                if (span.id === 'currentMonthYear') {
+                    span.textContent = `${currentMonth} ${currentYear}`;
+                } else if (span.id === 'currentMonthOnly') {
+                    span.textContent = currentMonth;
+                }
+            });
+            
+            // Update dynamic message title (optional)
+            const msgTitle = document.getElementById('dynamicMessageTitle');
+            if (msgTitle) {
+                msgTitle.textContent = `God's Faithfulness Through ${currentMonth}`;
+            }
+            
+            // Update footer blessing with current month
+            const footerElem = document.getElementById('footerBlessing');
+            if (footerElem) {
+                footerElem.textContent = `May ${currentMonth} ${currentYear} be filled with God's abundant blessings, joy, and peace that surpasses all understanding.`;
+            }
+        }
+        
+        // Run on load and also observe if needed
+        updateDates();
+        
+        // ========== FLOWERS & GIFT BOXES (same as original but enhanced) ==========
         function createFlowers() {
             const flowerContainer = document.getElementById('flowerContainer');
             const flowerEmojis = ['❀', '✿', '🌸', '🌺', '🌻', '🌼', '🌷', '💮', '🏵️', '🌹', '🥀', '🌾', '🌿', '☘️', '🍀'];
             const colors = ['#ff9ff3', '#feca57', '#ff6b6b', '#48dbfb', '#1dd1a1', '#f368e0', '#ff9f43', '#54a0ff', '#5f27cd', '#ffcccc', '#ccffcc', '#ccccff', '#ffffcc', '#ffccff', '#ccffff'];
             
-            // Create more flowers for a fuller effect
             const flowerCount = window.innerWidth < 768 ? 80 : 150;
             
             for (let i = 0; i < flowerCount; i++) {
                 const flower = document.createElement('div');
                 flower.className = `flower type${Math.floor(Math.random() * 4) + 1}`;
                 flower.innerHTML = flowerEmojis[Math.floor(Math.random() * flowerEmojis.length)];
-                
-                // Random position across the entire screen width
                 const leftPosition = Math.random() * 100;
                 flower.style.left = leftPosition + 'vw';
-                
-                // Random color
                 flower.style.color = colors[Math.floor(Math.random() * colors.length)];
-                
-                // Random size
                 const size = Math.random() * 25 + 15;
                 flower.style.fontSize = size + 'px';
-                
-                // Random animation duration and delay
                 const duration = Math.random() * 15 + 10;
                 flower.style.animationDuration = duration + 's';
-                
                 const delay = Math.random() * 10;
                 flower.style.animationDelay = delay + 's';
-                
-                // Random starting position (above the viewport)
                 const startY = -Math.random() * 100 - 100;
                 flower.style.top = startY + 'px';
-                
-                // Random z-index for depth
                 flower.style.zIndex = Math.floor(Math.random() * 5) + 1;
-                
                 flowerContainer.appendChild(flower);
                 
-                // Remove flower after animation completes and create a new one
                 setTimeout(() => {
                     if (flower.parentNode) {
                         flower.parentNode.removeChild(flower);
@@ -651,7 +746,6 @@
             }
         }
         
-        // Create new flower when one finishes its animation
         function createNewFlower() {
             const flowerContainer = document.getElementById('flowerContainer');
             const flowerEmojis = ['❀', '✿', '🌸', '🌺', '🌻', '🌼', '🌷', '💮', '🏵️', '🌹', '🥀', '🌾', '🌿', '☘️', '🍀'];
@@ -660,32 +754,18 @@
             const flower = document.createElement('div');
             flower.className = `flower type${Math.floor(Math.random() * 4) + 1}`;
             flower.innerHTML = flowerEmojis[Math.floor(Math.random() * flowerEmojis.length)];
-            
-            // Random position across the entire screen width
             const leftPosition = Math.random() * 100;
             flower.style.left = leftPosition + 'vw';
-            
-            // Random color
             flower.style.color = colors[Math.floor(Math.random() * colors.length)];
-            
-            // Random size
             const size = Math.random() * 25 + 15;
             flower.style.fontSize = size + 'px';
-            
-            // Random animation duration and delay
             const duration = Math.random() * 15 + 10;
             flower.style.animationDuration = duration + 's';
-            
-            // Random starting position (above the viewport)
             const startY = -Math.random() * 100 - 100;
             flower.style.top = startY + 'px';
-            
-            // Random z-index for depth
             flower.style.zIndex = Math.floor(Math.random() * 5) + 1;
-            
             flowerContainer.appendChild(flower);
             
-            // Remove flower after animation completes and create a new one
             setTimeout(() => {
                 if (flower.parentNode) {
                     flower.parentNode.removeChild(flower);
@@ -694,152 +774,71 @@
             }, duration * 1000);
         }
         
-        // Bible verses and wisdom messages
         const giftContent = [
-            {
-                verse: "For I know the plans I have for you, declares the Lord, plans to prosper you and not to harm you, plans to give you hope and a future.",
-                reference: "Jeremiah 29:11",
-                wisdom: "God's plans for your life are perfect. Trust in His timing and purpose for you."
-            },
-            {
-                verse: "The Lord himself goes before you and will be with you; he will never leave you nor forsake you. Do not be afraid; do not be discouraged.",
-                reference: "Deuteronomy 31:8",
-                wisdom: "No matter what you face, God is already ahead of you, preparing the way."
-            },
-            {
-                verse: "But those who hope in the Lord will renew their strength. They will soar on wings like eagles; they will run and not grow weary, they will walk and not be faint.",
-                reference: "Isaiah 40:31",
-                wisdom: "When you feel weary, place your hope in God. He will renew your strength."
-            },
-            {
-                verse: "And we know that in all things God works for the good of those who love him, who have been called according to his purpose.",
-                reference: "Romans 8:28",
-                wisdom: "Even in difficult situations, God is working things out for your ultimate good."
-            },
-            {
-                verse: "Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God.",
-                reference: "Philippians 4:6",
-                wisdom: "Replace anxiety with prayer and gratitude. God hears every request."
-            },
-            {
-                verse: "I can do all this through him who gives me strength.",
-                reference: "Philippians 4:13",
-                wisdom: "Your strength comes from Christ. With Him, nothing is impossible."
-            },
-            {
-                verse: "The Lord is my shepherd, I lack nothing.",
-                reference: "Psalm 23:1",
-                wisdom: "When God is your shepherd, you will have everything you truly need."
-            },
-            {
-                verse: "Cast all your anxiety on him because he cares for you.",
-                reference: "1 Peter 5:7",
-                wisdom: "God cares deeply about every concern you have. Share your burdens with Him."
-            },
-            {
-                verse: "Trust in the Lord with all your heart and lean not on your own understanding.",
-                reference: "Proverbs 3:5",
-                wisdom: "Human understanding is limited. Trust in God's infinite wisdom instead."
-            },
-            {
-                verse: "The Lord is my light and my salvation—whom shall I fear? The Lord is the stronghold of my life—of whom shall I be afraid?",
-                reference: "Psalm 27:1",
-                wisdom: "With God as your protector, there is no need to fear any situation."
-            },
-            {
-                verse: "Be strong and courageous. Do not be afraid or terrified because of them, for the Lord your God goes with you; he will never leave you nor forsake you.",
-                reference: "Deuteronomy 31:6",
-                wisdom: "Courage comes from knowing God is always with you."
-            },
-            {
-                verse: "The Lord will fight for you; you need only to be still.",
-                reference: "Exodus 14:14",
-                wisdom: "Sometimes the best action is to be still and let God fight your battles."
-            },
-            {
-                verse: "He gives strength to the weary and increases the power of the weak.",
-                reference: "Isaiah 40:29",
-                wisdom: "When you feel weak, God's strength is made perfect in your weakness."
-            },
-            {
-                verse: "For the Spirit God gave us does not make us timid, but gives us power, love and self-discipline.",
-                reference: "2 Timothy 1:7",
-                wisdom: "You have been given a spirit of power, not fear. Walk in that authority."
-            },
-            {
-                verse: "May the God of hope fill you with all joy and peace as you trust in him, so that you may overflow with hope by the power of the Holy Spirit.",
-                reference: "Romans 15:13",
-                wisdom: "As you trust in God, He will fill you with joy, peace, and overflowing hope."
-            }
+            { verse: "For I know the plans I have for you, declares the Lord, plans to prosper you and not to harm you, plans to give you hope and a future.", reference: "Jeremiah 29:11", wisdom: "God's plans for your life are perfect. Trust in His timing and purpose for you." },
+            { verse: "The Lord himself goes before you and will be with you; he will never leave you nor forsake you. Do not be afraid; do not be discouraged.", reference: "Deuteronomy 31:8", wisdom: "No matter what you face, God is already ahead of you, preparing the way." },
+            { verse: "But those who hope in the Lord will renew their strength. They will soar on wings like eagles; they will run and not grow weary, they will walk and not be faint.", reference: "Isaiah 40:31", wisdom: "When you feel weary, place your hope in God. He will renew your strength." },
+            { verse: "And we know that in all things God works for the good of those who love him, who have been called according to his purpose.", reference: "Romans 8:28", wisdom: "Even in difficult situations, God is working things out for your ultimate good." },
+            { verse: "Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God.", reference: "Philippians 4:6", wisdom: "Replace anxiety with prayer and gratitude. God hears every request." },
+            { verse: "I can do all this through him who gives me strength.", reference: "Philippians 4:13", wisdom: "Your strength comes from Christ. With Him, nothing is impossible." },
+            { verse: "The Lord is my shepherd, I lack nothing.", reference: "Psalm 23:1", wisdom: "When God is your shepherd, you will have everything you truly need." },
+            { verse: "Cast all your anxiety on him because he cares for you.", reference: "1 Peter 5:7", wisdom: "God cares deeply about every concern you have. Share your burdens with Him." },
+            { verse: "Trust in the Lord with all your heart and lean not on your own understanding.", reference: "Proverbs 3:5", wisdom: "Human understanding is limited. Trust in God's infinite wisdom instead." },
+            { verse: "The Lord is my light and my salvation—whom shall I fear? The Lord is the stronghold of my life—of whom shall I be afraid?", reference: "Psalm 27:1", wisdom: "With God as your protector, there is no need to fear any situation." },
+            { verse: "Be strong and courageous. Do not be afraid or terrified because of them, for the Lord your God goes with you; he will never leave you nor forsake you.", reference: "Deuteronomy 31:6", wisdom: "Courage comes from knowing God is always with you." },
+            { verse: "The Lord will fight for you; you need only to be still.", reference: "Exodus 14:14", wisdom: "Sometimes the best action is to be still and let God fight your battles." },
+            { verse: "He gives strength to the weary and increases the power of the weak.", reference: "Isaiah 40:29", wisdom: "When you feel weak, God's strength is made perfect in your weakness." },
+            { verse: "For the Spirit God gave us does not make us timid, but gives us power, love and self-discipline.", reference: "2 Timothy 1:7", wisdom: "You have been given a spirit of power, not fear. Walk in that authority." },
+            { verse: "May the God of hope fill you with all joy and peace as you trust in him, so that you may overflow with hope by the power of the Holy Spirit.", reference: "Romans 15:13", wisdom: "As you trust in God, He will fill you with joy, peace, and overflowing hope." }
         ];
         
-        // Create gift boxes
         function createGiftBoxes() {
             const giftContainer = document.getElementById('giftContainer');
             const giftModals = document.getElementById('giftModals');
             
             for (let i = 0; i < 15; i++) {
-                // Create gift box
                 const giftBox = document.createElement('div');
                 giftBox.className = 'gift-box';
                 giftBox.id = `gift-${i+1}`;
-                
                 const giftIcon = document.createElement('i');
                 giftIcon.className = 'fas fa-gift';
-                
                 const boxNumber = document.createElement('div');
                 boxNumber.className = 'box-number';
                 boxNumber.textContent = `Box ${i+1}`;
-                
                 giftBox.appendChild(giftIcon);
                 giftBox.appendChild(boxNumber);
-                
                 giftContainer.appendChild(giftBox);
                 
-                // Create modal content for each gift
                 const modal = document.createElement('div');
                 modal.className = 'gift-content';
                 modal.id = `modal-${i+1}`;
-                
                 const closeBtn = document.createElement('div');
                 closeBtn.className = 'close-btn';
                 closeBtn.innerHTML = '&times;';
-                closeBtn.addEventListener('click', () => {
-                    modal.classList.remove('active');
-                });
-                
+                closeBtn.addEventListener('click', () => { modal.classList.remove('active'); });
                 const verse = document.createElement('div');
                 verse.className = 'verse';
                 verse.textContent = `"${giftContent[i].verse}"`;
-                
                 const reference = document.createElement('div');
                 reference.className = 'verse-ref';
                 reference.textContent = giftContent[i].reference;
-                
                 const wisdom = document.createElement('div');
                 wisdom.className = 'wisdom';
                 wisdom.textContent = giftContent[i].wisdom;
-                
                 modal.appendChild(closeBtn);
                 modal.appendChild(verse);
                 modal.appendChild(reference);
                 modal.appendChild(wisdom);
-                
                 giftModals.appendChild(modal);
                 
-                // Add click event to gift box
                 giftBox.addEventListener('click', () => {
-                    // Close any open modals
                     document.querySelectorAll('.gift-content.active').forEach(activeModal => {
                         activeModal.classList.remove('active');
                     });
-                    
-                    // Open this modal
                     modal.classList.add('active');
                 });
             }
             
-            // Close modal when clicking outside
             window.addEventListener('click', (e) => {
                 if (e.target.classList.contains('gift-content')) {
                     e.target.classList.remove('active');
@@ -847,7 +846,6 @@
             });
         }
         
-        // Music player functionality
         function setupMusicPlayer() {
             const audio = document.getElementById('background-music');
             const playPauseBtn = document.getElementById('playPauseBtn');
@@ -855,30 +853,23 @@
             const musicStatus = document.getElementById('musicStatus');
             const volumeSlider = document.getElementById('volumeSlider');
             
-            // Set initial volume (30%)
             audio.volume = 0.3;
-            
-            // Auto-play after user interaction (to respect browser autoplay policies)
             let hasInteracted = false;
             
             document.addEventListener('click', function initAudio() {
                 if (!hasInteracted) {
-                    // Try to play audio
                     audio.play().then(() => {
                         playPauseIcon.classList.remove('fa-play');
                         playPauseIcon.classList.add('fa-pause');
                         musicStatus.textContent = 'Now playing';
                     }).catch(error => {
-                        console.log("Autoplay was prevented:", error);
                         musicStatus.textContent = 'Click play button';
                     });
-                    
                     hasInteracted = true;
                     document.removeEventListener('click', initAudio);
                 }
             });
             
-            // Play/Pause button functionality
             playPauseBtn.addEventListener('click', function() {
                 if (audio.paused) {
                     audio.play();
@@ -893,76 +884,33 @@
                 }
             });
             
-            // Volume control
             volumeSlider.addEventListener('input', function() {
                 audio.volume = this.value / 100;
-                
-                // Update status text for volume
-                if (audio.volume === 0) {
-                    musicStatus.textContent = 'Volume: Muted';
-                } else if (audio.volume < 0.3) {
-                    musicStatus.textContent = 'Volume: Low';
-                } else if (audio.volume < 0.7) {
-                    musicStatus.textContent = 'Volume: Medium';
-                } else {
-                    musicStatus.textContent = 'Volume: High';
-                }
-                
-                // Reset status after 2 seconds
-                setTimeout(() => {
-                    if (!audio.paused) {
-                        musicStatus.textContent = 'Now playing';
-                    }
-                }, 2000);
+                if (audio.volume === 0) musicStatus.textContent = 'Volume: Muted';
+                else if (audio.volume < 0.3) musicStatus.textContent = 'Volume: Low';
+                else if (audio.volume < 0.7) musicStatus.textContent = 'Volume: Medium';
+                else musicStatus.textContent = 'Volume: High';
+                setTimeout(() => { if (!audio.paused) musicStatus.textContent = 'Now playing'; }, 2000);
             });
             
-            // Update status when audio ends (though it's set to loop)
-            audio.addEventListener('ended', function() {
-                playPauseIcon.classList.remove('fa-pause');
-                playPauseIcon.classList.add('fa-play');
-                musicStatus.textContent = 'Click to play';
-            });
-            
-            // Handle audio errors
             audio.addEventListener('error', function() {
                 musicStatus.textContent = 'Music unavailable';
-                console.error("Error loading audio file. The external music source might be unavailable.");
             });
         }
         
-        // Initialize everything when page loads
         document.addEventListener('DOMContentLoaded', () => {
             createFlowers();
             createGiftBoxes();
             setupMusicPlayer();
             
-            // Auto-open first gift box after a delay
             setTimeout(() => {
-                document.getElementById('modal-1').classList.add('active');
+                const firstModal = document.getElementById('modal-1');
+                if(firstModal) firstModal.classList.add('active');
             }, 1500);
             
-            // Show music player hint
-            setTimeout(() => {
-                const musicStatus = document.getElementById('musicStatus');
-                if (musicStatus.textContent === 'Click to play') {
-                    musicStatus.textContent = 'Music ready - click play';
-                    setTimeout(() => {
-                        if (musicStatus.textContent === 'Music ready - click play') {
-                            musicStatus.textContent = 'Click to play';
-                        }
-                    }, 3000);
-                }
-            }, 2000);
-            
-            // Adjust flowers on window resize
             window.addEventListener('resize', () => {
-                // Clear existing flowers
                 const flowerContainer = document.getElementById('flowerContainer');
-                while (flowerContainer.firstChild) {
-                    flowerContainer.removeChild(flowerContainer.firstChild);
-                }
-                
-                // Create new flowers adjusted for new screen size
+                while (flowerContainer.firstChild) flowerContainer.removeChild(flowerContainer.firstChild);
                 setTimeout(createFlowers, 100);
             });
         });
