@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Prayer Bible Guide | Interactive Prayer Tool</title>
+  <style>
+    /* CSS Variables for Light/Dark Mode */
+    :root {
+      --bg-primary: #faf6e9;
+      --bg-secondary: #fff9ef;
+      --bg-card: white;
+      --text-primary: #2c2418;
+      --text-secondary: #4a3b28;
+      --accent-green: #2a5a3a;
+      --accent-green-light: #3a7a4a;
+      --accent-gold: #c5a263;
+      --border-light: #e0cfb0;
+      --verse-border: #c5a263;
+      --shadow: rgba(0,0,0,0.05);
+      --note-bg: #fef4e0;
+      --step-bg: white;
+    }
+    body.dark {
+      --bg-primary: #1a1e2c;
+      --bg-secondary: #252a3a;
+      --bg-card: #2d3348;
+      --text-primary: #ece8e0;
+      --text-secondary: #cdc6b5;
+      --accent-green: #3a8a5a;
+      --accent-green-light: #4a9a6a;
+      --accent-gold: #d4b87a;
+      --border-light: #3d3f4e;
+      --verse-border: #a8894a;
+      --shadow: rgba(0,0,0,0.2);
+      --note-bg: #2a2f42;
+      --step-bg: #363d55;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.5;
+      scroll-behavior: smooth;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    /* Header */
+    .hero {
+      background: linear-gradient(135deg, #1e3c2c 0%, #2a5a3a 100%);
+      color: #fef7e0;
+      text-align: center;
+      padding: 1.5rem 1.5rem;
+      position: relative;
+    }
+    body.dark .hero {
+      background: linear-gradient(135deg, #0f2a1c 0%, #1a4a2a 100%);
+    }
+    .dark-mode-toggle {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: rgba(255,255,255,0.2);
+      border: none;
+      border-radius: 40px;
+      padding: 0.5rem 1rem;
+      color: white;
+      cursor: pointer;
+      font-size: 1.1rem;
+      backdrop-filter: blur(4px);
+    }
+    .hero h1 { font-size: 2rem; margin-bottom: 0.3rem; }
+    .hero p { font-size: 1rem; opacity: 0.9; }
+
+    /* Verse of the Day */
+    .verse-of-day {
+      background: var(--bg-card);
+      border-radius: 28px;
+      padding: 1.2rem 1.5rem;
+      margin-bottom: 2rem;
+      text-align: center;
+      box-shadow: 0 4px 12px var(--shadow);
+      border-left: 6px solid var(--accent-gold);
+    }
+    .verse-of-day h3 { color: var(--accent-green); margin-bottom: 0.5rem; }
+    .verse-day-text { font-size: 1.2rem; font-style: italic; margin: 0.5rem 0; }
+    .verse-day-ref { font-weight: bold; color: var(--accent-gold); }
+    .refresh-verse { background: var(--accent-green); color: white; border: none; padding: 0.4rem 1.2rem; border-radius: 40px; margin-top: 0.5rem; cursor: pointer; }
+
+    .container { max-width: 1300px; margin: 0 auto; padding: 1.5rem; }
+
+    /* Tabs - scrollable on mobile */
+    .tabs {
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      gap: 0.6rem;
+      margin-bottom: 2rem;
+      padding-bottom: 0.6rem;
+      scrollbar-width: thin;
+    }
+    .tab-btn {
+      background: transparent;
+      border: none;
+      font-weight: 600;
+      padding: 0.5rem 1.2rem;
+      cursor: pointer;
+      border-radius: 40px;
+      white-space: nowrap;
+      color: var(--text-secondary);
+      transition: all 0.2s;
+    }
+    .tab-btn.active { background: var(--accent-green); color: white; }
+
+    .section { display: none; animation: fadeIn 0.25s; }
+    .section.active-section { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px);} to { opacity: 1; } }
+
+    /* Cards */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+    .verse-card {
+      background: var(--bg-card);
+      border-radius: 24px;
+      padding: 1.3rem;
+      box-shadow: 0 4px 12px var(--shadow);
+      border-left: 5px solid var(--accent-gold);
+      transition: transform 0.2s;
+    }
+    .verse-card:hover { transform: translateY(-3px); }
+    .verse-text { font-size: 1rem; font-style: italic; margin-bottom: 0.6rem; }
+    .verse-ref { font-size: 0.8rem; color: var(--accent-gold); font-weight: bold; }
+    .note {
+      background: var(--note-bg);
+      margin-top: 0.8rem;
+      padding: 0.6rem 0.9rem;
+      border-radius: 16px;
+      font-size: 0.85rem;
+      border-left: 3px solid var(--accent-gold);
+    }
+    .share-icon {
+      display: inline-block;
+      margin-top: 0.6rem;
+      font-size: 0.8rem;
+      cursor: pointer;
+      background: var(--accent-green-light);
+      color: white;
+      padding: 0.2rem 0.8rem;
+      border-radius: 30px;
+      width: fit-content;
+    }
+
+    /* Morning Prayer Interactive Steps */
+    .morning-prayer {
+      background: var(--bg-secondary);
+      border-radius: 32px;
+      padding: 1.5rem;
+      margin: 1rem 0;
+    }
+    .prayer-steps {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+    .step {
+      background: var(--step-bg);
+      border-radius: 24px;
+      padding: 1rem;
+      flex: 1 1 170px;
+      transition: all 0.2s;
+    }
+    .step.completed { opacity: 0.75; background: var(--accent-green); color: white; }
+    .step.completed h4 { color: white; }
+    .step input { margin-right: 8px; transform: scale(1.1); cursor: pointer; }
+    .progress-bar {
+      background: #ddd;
+      border-radius: 20px;
+      height: 10px;
+      margin: 1rem 0;
+      overflow: hidden;
+    }
+    .progress-fill { background: var(--accent-green); width: 0%; height: 100%; transition: width 0.3s; }
+
+    .example-prayer {
+      background: var(--bg-card);
+      padding: 1rem;
+      border-radius: 24px;
+      font-family: monospace;
+      margin-top: 1rem;
+    }
+    .audio-icon {
+      cursor: pointer;
+      margin-left: 8px;
+      font-size: 0.9rem;
+      background: var(--accent-green);
+      padding: 0.2rem 0.6rem;
+      border-radius: 30px;
+      display: inline-block;
+    }
+
+    /* Prayer Journal */
+    .journal {
+      background: var(--bg-secondary);
+      border-radius: 28px;
+      padding: 1.5rem;
+      margin: 2rem 0;
+    }
+    textarea {
+      width: 100%;
+      padding: 1rem;
+      border-radius: 20px;
+      border: 1px solid var(--border-light);
+      background: var(--bg-card);
+      color: var(--text-primary);
+      font-family: inherit;
+    }
+    .journal-actions button {
+      background: var(--accent-green);
+      border: none;
+      padding: 0.5rem 1.2rem;
+      border-radius: 40px;
+      color: white;
+      margin-right: 1rem;
+      cursor: pointer;
+    }
+
+    footer { text-align: center; margin-top: 2rem; padding: 1rem; border-top: 1px solid var(--border-light); font-size: 0.8rem; }
+
+    @media (max-width: 680px) {
+      .tabs { -webkit-overflow-scrolling: touch; }
+      .step { flex-basis: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="hero">
+  <button class="dark-mode-toggle" id="darkModeToggle">🌙 Dark Mode</button>
+  <div class="bible-icon">📖🙏</div>
+  <h1>Prayer Bible Guide</h1>
+  <p>Learn • Pray • Grow — Interactive Prayer Tool</p>
+</div>
+
+<div class="container">
+  <!-- Verse of the Day -->
+  <div class="verse-of-day">
+    <h3>✨ Verse of the Day</h3>
+    <div class="verse-day-text" id="verseOfDayText">“Call to me and I will answer you.”</div>
+    <div class="verse-day-ref" id="verseOfDayRef">Jeremiah 33:3</div>
+    <button class="refresh-verse" id="refreshVerseBtn">🔄 New Verse</button>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="teachings">📘 Teachings</button>
+    <button class="tab-btn" data-tab="morning">🌅 Morning Guide</button>
+    <button class="tab-btn" data-tab="types">🕊️ Types of Prayer</button>
+    <button class="tab-btn" data-tab="journal">📓 Prayer Journal</button>
+  </div>
+
+  <!-- SECTION 1: TEACHINGS -->
+  <div id="teachings" class="section active-section">
+    <div class="card-grid" id="teachingsGrid"></div>
+  </div>
+
+  <!-- SECTION 2: MORNING PRAYER INTERACTIVE -->
+  <div id="morning" class="section">
+    <div class="morning-prayer">
+      <h3>🌅 6-Step Morning Prayer Routine</h3>
+      <div class="progress-bar"><div class="progress-fill" id="morningProgressFill"></div></div>
+      <div class="prayer-steps" id="morningStepsContainer"></div>
+      <div class="example-prayer">
+        <strong>📋 Sample Morning Prayer</strong> <span class="audio-icon" id="playMorningPrayer">🔊 Listen</span>
+        <div id="morningPrayerText">“Dear God, thank You for this new day. Guide me in everything I do. Protect me and my family. Give me wisdom, strength, and peace. Help me to do what is right and to show love. Bless my studies, work, and plans. In Jesus’ name, Amen.”</div>
+      </div>
+    </div>
+    <div class="card-grid">
+      <div class="verse-card"><div class="verse-text">“In the morning, Lord, you hear my voice.”</div><div class="verse-ref">Psalm 5:3</div><div class="note">🌄 Start your day by laying requests before God.</div></div>
+      <div class="verse-card"><div class="verse-text">“Satisfy us in the morning with your unfailing love.”</div><div class="verse-ref">Psalm 90:14</div><div class="note">☀️ Pray for joy and God’s love each morning.</div></div>
+    </div>
+  </div>
+
+  <!-- SECTION 3: TYPES OF PRAYER -->
+  <div id="types" class="section">
+    <div class="card-grid" id="typesGrid"></div>
+    <div class="journal" style="margin-top:1rem;">
+      <h3>📖 Simple Prayer Structure (ACTS)</h3>
+      <p><strong>Praise → Thanksgiving → Confession → Petition → Intercession → Faith</strong></p>
+      <div class="example-prayer">“Father, I praise You. Thank You for provision. Forgive my wrongs. Help me today. Heal my friend. I trust You.”</div>
+    </div>
+  </div>
+
+  <!-- SECTION 4: PRAYER JOURNAL -->
+  <div id="journal" class="section">
+    <div class="journal">
+      <h3>📝 Personal Prayer Journal</h3>
+      <p>Write your prayers, confessions, or thanksgiving notes. They will be saved automatically.</p>
+      <textarea id="journalEntry" rows="6" placeholder="Dear God, today I want to pray for..."></textarea>
+      <div class="journal-actions" style="margin-top: 1rem;">
+        <button id="saveJournalBtn">💾 Save Journal</button>
+        <button id="clearJournalBtn">🗑️ Clear</button>
+      </div>
+      <p style="margin-top: 0.5rem; font-size:0.8rem;">✨ Your entries are stored privately on your device.</p>
+    </div>
+  </div>
+
+  <footer>
+    <span>📖 “Pray without ceasing.” — 1 Thessalonians 5:17</span><br>
+    <span>Interactive Prayer Tool | Bible-based Learning</span>
+  </footer>
+</div>
+
+<script>
+  // ---------- DATA (teachings & types) ----------
+  const teachingsData = [
+    { verse: "“Call to me and I will answer you.”", ref: "Jeremiah 33:3", note: "✏️ Prayer is communication with God — He listens and responds." },
+    { verse: "“Our Father in heaven, hallowed be your name...”", ref: "Matthew 6:9–13", note: "✏️ Jesus’ model prayer — honor God, ask for daily needs, forgiveness." },
+    { verse: "“Whatever you ask for in prayer, believe that you have received it.”", ref: "Mark 11:24", note: "✏️ Pray with faith — trust God's power." },
+    { verse: "“Pray without ceasing.”", ref: "1 Thessalonians 5:17", note: "✏️ Pray continually — a lifestyle of dependence." },
+    { verse: "“Do not be anxious... present your requests to God.”", ref: "Philippians 4:6", note: "✏️ Prayer brings peace — exchange anxiety for calm." },
+    { verse: "“When you pray, go into your room.”", ref: "Matthew 6:6", note: "✏️ Pray sincerely, not for show — heartfelt secret prayer." },
+    { verse: "“Give thanks in all circumstances.”", ref: "1 Thessalonians 5:18", note: "✏️ Prayer with thanksgiving — gratitude aligns hearts." }
+  ];
+
+  const typesData = [
+    { verse: "“Enter his gates with thanksgiving...”", ref: "Psalm 100:4", note: "🙌 Praise & Worship — Honoring God for who He is." },
+    { verse: "“Give thanks in all circumstances.”", ref: "1 Thessalonians 5:18", note: "🙏 Thanksgiving — Thanking for blessings." },
+    { verse: "“If we confess our sins, he is faithful...”", ref: "1 John 1:9", note: "💧 Confession — Confess sins, receive forgiveness." },
+    { verse: "“Ask and it will be given to you.”", ref: "Matthew 7:7", note: "📝 Petition — Bring personal needs." },
+    { verse: "“Pray for one another.”", ref: "James 5:16", note: "🤝 Intercession — Praying for others." },
+    { verse: "“Believe that you have received it.”", ref: "Mark 11:24", note: "🔥 Prayer of Faith — Trust completely." },
+    { verse: "“Be still, and know that I am God.”", ref: "Psalm 46:10", note: "🤫 Silent/Meditative Prayer — Listening to God." },
+    { verse: "“In the morning, Lord, you hear my voice.”", ref: "Psalm 5:3", note: "🌙 Morning & Evening Prayer." }
+  ];
+
+  const versesOfDay = [
+    { text: "“Call to me and I will answer you.”", ref: "Jeremiah 33:3" },
+    { text: "“Do not be anxious about anything, but in every situation, by prayer... present your requests to God.”", ref: "Philippians 4:6" },
+    { text: "“Pray without ceasing.”", ref: "1 Thessalonians 5:17" },
+    { text: "“The Lord is near to all who call on him.”", ref: "Psalm 145:18" },
+    { text: "“Ask and it will be given to you; seek and you will find.”", ref: "Matthew 7:7" },
+    { text: "“I can do all things through Christ who strengthens me.”", ref: "Philippians 4:13" }
+  ];
+
+  function renderCards(containerId, data) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    container.innerHTML = data.map(item => `
+      <div class="verse-card">
+        <div class="verse-text">${item.verse}</div>
+        <div class="verse-ref">${item.ref}</div>
+        <div class="note">${item.note}</div>
+        <div class="share-icon" onclick="shareVerse('${item.verse.replace(/[']/g, "\\'")}', '${item.ref}')">📤 Share</div>
+      </div>
+    `).join('');
+  }
+
+  window.shareVerse = function(verse, ref) {
+    const shareText = `“${verse}” — ${ref}\n\nJoin me in prayer today! 🙏`;
+    if (navigator.share) {
+      navigator.share({ title: 'Prayer Verse', text: shareText }).catch(() => copyToClipboard(shareText));
+    } else {
+      copyToClipboard(shareText);
+      alert("📋 Copied to clipboard!");
+    }
+  };
+  function copyToClipboard(text) {
+    navigator.clipboard.writeText(text);
+  }
+
+  // Morning Steps Interactive (checkboxes + progress)
+  const morningSteps = [
+    { title: "Thank for New Day", desc: "Thank God for life & health (Psalm 118:24)" },
+    { title: "Ask for Guidance", desc: "Wisdom & direction (Proverbs 3:5-6)" },
+    { title: "Ask for Protection", desc: "Safety from danger & evil" },
+    { title: "Pray for Strength", desc: "Courage & patience (Phil 4:13)" },
+    { title: "Pray for Others", desc: "Family, friends, those in need" },
+    { title: "Commit the Day", desc: "Surrender to God's will" }
+  ];
+
+  function loadMorningSteps() {
+    const container = document.getElementById('morningStepsContainer');
+    if (!container) return;
+    let savedChecks = JSON.parse(localStorage.getItem('morningPrayerChecks') || '[]');
+    container.innerHTML = morningSteps.map((step, idx) => `
+      <div class="step ${savedChecks[idx] ? 'completed' : ''}" data-step-idx="${idx}">
+        <input type="checkbox" ${savedChecks[idx] ? 'checked' : ''} data-step-idx="${idx}" class="step-checkbox"> 
+        <h4>${idx+1}. ${step.title}</h4>
+        <small>${step.desc}</small>
+      </div>
+    `).join('');
+    attachCheckboxEvents();
+    updateProgressBar();
+  }
+
+  function attachCheckboxEvents() {
+    document.querySelectorAll('.step-checkbox').forEach(cb => {
+      cb.removeEventListener('change', handleCheckChange);
+      cb.addEventListener('change', handleCheckChange);
+    });
+  }
+  function handleCheckChange(e) {
+    const idx = parseInt(e.target.dataset.stepIdx);
+    let checks = JSON.parse(localStorage.getItem('morningPrayerChecks') || '[]');
+    checks[idx] = e.target.checked;
+    localStorage.setItem('morningPrayerChecks', JSON.stringify(checks));
+    const stepDiv = e.target.closest('.step');
+    if (e.target.checked) stepDiv.classList.add('completed');
+    else stepDiv.classList.remove('completed');
+    updateProgressBar();
+  }
+  function updateProgressBar() {
+    const checks = JSON.parse(localStorage.getItem('morningPrayerChecks') || '[]');
+    const total = morningSteps.length;
+    const completed = checks.filter(v => v === true).length;
+    const percent = (completed / total) * 100;
+    const fill = document.getElementById('morningProgressFill');
+    if (fill) fill.style.width = percent + '%';
+  }
+
+  // Audio (Speech Synthesis)
+  function speakText(text) {
+    if ('speechSynthesis' in window) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'en-US';
+      window.speechSynthesis.cancel();
+      window.speechSynthesis.speak(utterance);
+    } else {
+      alert("Your browser doesn't support speech synthesis.");
+    }
+  }
+  document.addEventListener('click', (e) => {
+    if (e.target.id === 'playMorningPrayer') {
+      const prayerText = document.getElementById('morningPrayerText')?.innerText;
+      if (prayerText) speakText(prayerText);
+    }
+  });
+
+  // Verse of the Day random + refresh
+  function setRandomVerse() {
+    const randomIndex = Math.floor(Math.random() * versesOfDay.length);
+    const verse = versesOfDay[randomIndex];
+    document.getElementById('verseOfDayText').innerText = verse.text;
+    document.getElementById('verseOfDayRef').innerText = verse.ref;
+    localStorage.setItem('verseOfDay', JSON.stringify({ text: verse.text, ref: verse.ref, date: new Date().toDateString() }));
+  }
+  function loadVerseOfDay() {
+    const stored = localStorage.getItem('verseOfDay');
+    if (stored) {
+      const data = JSON.parse(stored);
+      if (data.date === new Date().toDateString()) {
+        document.getElementById('verseOfDayText').innerText = data.text;
+        document.getElementById('verseOfDayRef').innerText = data.ref;
+        return;
+      }
+    }
+    setRandomVerse();
+  }
+  document.getElementById('refreshVerseBtn')?.addEventListener('click', () => {
+    setRandomVerse();
+    localStorage.setItem('verseOfDay', JSON.stringify({ text: document.getElementById('verseOfDayText').innerText, ref: document.getElementById('verseOfDayRef').innerText, date: new Date().toDateString() }));
+  });
+
+  // Prayer Journal (localStorage)
+  function loadJournal() {
+    const saved = localStorage.getItem('prayerJournal');
+    if (saved) document.getElementById('journalEntry').value = saved;
+  }
+  document.getElementById('saveJournalBtn')?.addEventListener('click', () => {
+    const content = document.getElementById('journalEntry').value;
+    localStorage.setItem('prayerJournal', content);
+    alert('Journal saved! ✨');
+  });
+  document.getElementById('clearJournalBtn')?.addEventListener('click', () => {
+    if (confirm('Clear your prayer journal?')) {
+      localStorage.removeItem('prayerJournal');
+      document.getElementById('journalEntry').value = '';
+      alert('Journal cleared.');
+    }
+  });
+
+  // Dark Mode Toggle
+  function initDarkMode() {
+    const darkMode = localStorage.getItem('darkMode') === 'true';
+    if (darkMode) document.body.classList.add('dark');
+    document.getElementById('darkModeToggle').innerText = darkMode ? '☀️ Light Mode' : '🌙 Dark Mode';
+    document.getElementById('darkModeToggle').addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      const isDark = document.body.classList.contains('dark');
+      localStorage.setItem('darkMode', isDark);
+      document.getElementById('darkModeToggle').innerText = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
+    });
+  }
+
+  // TABS navigation
+  function initTabs() {
+    const btns = document.querySelectorAll('.tab-btn');
+    const sections = document.querySelectorAll('.section');
+    btns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tabId = btn.getAttribute('data-tab');
+        sections.forEach(section => section.classList.remove('active-section'));
+        document.getElementById(tabId).classList.add('active-section');
+        btns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        if (tabId === 'journal') loadJournal();
+        if (tabId === 'morning') loadMorningSteps();
+      });
+    });
+  }
+
+  // Share generic for verse cards added later (dynamic share)
+  // Also add an overall share for all existing verse-card share icons (already via onclick)
+  // Initialize all
+  function init() {
+    renderCards('teachingsGrid', teachingsData);
+    renderCards('typesGrid', typesData);
+    loadMorningSteps();
+    loadVerseOfDay();
+    loadJournal();
+    initTabs();
+    initDarkMode();
+    // if any share button not working due to dynamic, already handled with global function.
+  }
+  init();
+</script>
+</body>
+</html>
