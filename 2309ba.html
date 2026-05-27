@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Hope Restorer - I Will Not Quit | Strength for Hard Days</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Poppins', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: #0a0f1c;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 10%, rgba(80, 70, 150, 0.3), rgba(10, 15, 28, 0.97));
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .ember {
+            position: fixed;
+            bottom: -20px;
+            background: rgba(255, 160, 60, 0.5);
+            border-radius: 50%;
+            filter: blur(3px);
+            pointer-events: none;
+            animation: riseSlow 12s linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes riseSlow {
+            0% { transform: translateY(0) scale(0.3); opacity: 0; }
+            20% { opacity: 0.7; }
+            80% { opacity: 0.4; }
+            100% { transform: translateY(-100vh) scale(1.2); opacity: 0; }
+        }
+
+        .main-card {
+            position: relative;
+            z-index: 10;
+            max-width: 900px;
+            width: 100%;
+            margin: 0 auto;
+            background: rgba(18, 22, 40, 0.85);
+            backdrop-filter: blur(16px);
+            border-radius: 56px;
+            padding: 40px 35px;
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 200, 100, 0.15);
+            animation: fadeSlideUp 0.8s ease;
+        }
+
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .candle-icon {
+            text-align: center;
+            font-size: 4rem;
+            margin-bottom: 15px;
+            animation: gentlePulse 2s infinite alternate;
+        }
+
+        @keyframes gentlePulse {
+            0% { text-shadow: 0 0 5px #ffa559; transform: scale(1);}
+            100% { text-shadow: 0 0 20px #ff7e2e; transform: scale(1.02);}
+        }
+
+        h1 {
+            font-size: 2.3rem;
+            text-align: center;
+            background: linear-gradient(135deg, #FFE6B0, #FFB347);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+
+        .affirmation-block {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 40px;
+            padding: 28px;
+            margin: 25px 0;
+            border-left: 6px solid #FF9966;
+        }
+
+        .affirmation-text {
+            font-size: 1.08rem;
+            line-height: 1.65;
+            color: #f0e6d2;
+        }
+
+        .section-title {
+            font-size: 1.7rem;
+            color: #FFCF8A;
+            margin: 30px 0 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 2px solid #ffb34760;
+            padding-bottom: 8px;
+        }
+
+        .sayings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 18px;
+            margin: 25px 0;
+        }
+
+        .saying-card {
+            background: rgba(255, 215, 150, 0.08);
+            border-radius: 28px;
+            padding: 18px 20px;
+            border: 1px solid rgba(255, 180, 70, 0.25);
+            transition: all 0.2s;
+        }
+
+        .saying-card:hover {
+            background: rgba(255, 200, 120, 0.12);
+            transform: translateY(-3px);
+            border-color: #ffaa55;
+        }
+
+        .saying-text {
+            font-size: 1rem;
+            line-height: 1.45;
+            color: #f2e8d5;
+            font-weight: 500;
+        }
+
+        .saying-icon {
+            color: #ffb058;
+            margin-right: 12px;
+            font-size: 1.2rem;
+        }
+
+        .scripture-power {
+            background: linear-gradient(145deg, #1e243f, #0f1226);
+            border-radius: 38px;
+            padding: 28px;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .big-verse {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #FFE2A4;
+        }
+
+        .hope-button {
+            background: rgba(255, 145, 77, 0.2);
+            border: 1px solid #ffa559;
+            padding: 12px 24px;
+            border-radius: 60px;
+            color: #ffcd94;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .hope-button:hover {
+            background: #ffa559;
+            color: #0a0f1c;
+            transform: scale(1.02);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.85rem;
+            color: #8e9ac3;
+        }
+
+        @media (max-width: 650px) {
+            .main-card { padding: 28px 20px; }
+            h1 { font-size: 1.8rem; }
+            .section-title { font-size: 1.4rem; }
+            .big-verse { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+<div id="emberContainer"></div>
+
+<div class="main-card">
+    <div class="candle-icon">🔥🕯️</div>
+    <h1>you are still standing.<br>that means hope is not finished.</h1>
+
+    <!-- YOUR CUSTOM AFFIRMATION: I WAS NOT CREATED TO QUIT -->
+    <div class="affirmation-block">
+        <div class="affirmation-text">
+            <i class="fas fa-fist-raised" style="font-size: 1.8rem; color: #ffaa55; margin-right: 12px; float: left;"></i>
+            <strong>I was not created to quit when life becomes difficult.</strong> Every setback I face is shaping me into someone stronger, wiser, and more disciplined. Failing exams, lacking money, or feeling lost today does not decide my future. My story is still being written, and hard seasons are not permanent. I will rise again, learn again, and fight again even when my mind feels tired. I have survived days I thought would break me, and that means there is strength inside me that cannot be destroyed easily. Every small step I take matters. Every hour I study, every skill I build, and every challenge I overcome is preparing me for a better future. I refuse to measure my worth by temporary struggles. I will not compare my journey to others. I choose persistence over surrender, growth over fear, and hope over hopelessness. I may bend under pressure, but I will never completely give up on myself.
+        </div>
+    </div>
+
+    <!-- MISTREATMENT & HEALING SECTION -->
+    <div class="affirmation-block" style="border-left-color: #88aaff;">
+        <div class="affirmation-text">
+            <i class="fas fa-heart-broken" style="font-size: 1.6rem; color: #ffaa88; margin-right: 12px; float: left;"></i>
+            Being mistreated can stay in the mind longer than people realize. Sometimes the body moves on, but the mind keeps replaying the disrespect, the rejection, the unfair treatment, or the moments that made you feel small. That pain can slowly drain confidence and peace if you carry it alone for too long.<br><br>
+            <strong>But listen carefully:</strong> the way some people treated you is not a measurement of your value. Some people disrespect others because they lack maturity, empathy, discipline, or because they project their own frustrations onto others. Their behavior speaks about their character, not your worth.<br><br>
+            You do not need to become bitter to become strong. One day, the same struggles that make you feel weak now may become the reason you are disciplined, calm, skilled, and mentally tougher than many people around you. The quiet people who suffer deeply sometimes build the strongest foundations because they learn endurance.<br><br>
+            Do not give people the power to decide your future through their words or actions. Your mission now is: <strong>build yourself, protect your peace, gain knowledge, improve your skills, become financially stable, and grow into someone even you are proud of.</strong><br><br>
+            A person who keeps moving forward despite pain becomes dangerous in a good way — focused, resilient, and hard to break.<br><br>
+            <em>“I will not spend my life proving my worth to people who failed to see it. I will build a life so strong that my peace no longer depends on how others treat me.”</em><br><br>
+            Bad seasons pass, failures teach, pain changes shape, confidence can be rebuilt, and your current situation is not permanent.
+        </div>
+    </div>
+
+    <!-- 20+ SAYINGS I SHOULD ALWAYS REMEMBER -->
+    <div class="section-title">
+        <i class="fas fa-brain"></i> 
+        <span>20+ Truths I Will Always Remember</span>
+    </div>
+    <div class="sayings-grid" id="sayingsGrid"></div>
+
+    <!-- SCRIPTURE ANCHOR -->
+    <div class="scripture-power">
+        <i class="fas fa-bible" style="font-size: 2rem; color: #f4b942;"></i>
+        <div class="big-verse">“I can do all things through Christ who strengthens me.”</div>
+        <div class="ref" style="margin-top: 12px;">Philippians 4:13</div>
+        <div style="margin-top: 18px; font-size: 0.95rem;">You are not abandoned. Even now, He is breathing strength into your lungs.</div>
+    </div>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin: 25px 0;">
+        <button class="hope-button" id="randomSayingBtn"><i class="fas fa-star-of-life"></i> Give me a saying right now</button>
+        <button class="hope-button" id="crisisHelpBtn"><i class="fas fa-phone-alt"></i> Need to talk?</button>
+    </div>
+
+    <footer>
+        <i class="fas fa-infinity"></i> You are not your failures. You are not their words. You are the storm that keeps walking. Keep going.
+    </footer>
+</div>
+
+<script>
+    // 20+ powerful sayings (25 total)
+    const sayingsList = [
+        "I was not created to quit when life becomes difficult. Every setback is shaping me.",
+        "Failing today does not decide my future. My story is still being written.",
+        "I have survived days I thought would break me. That means I am stronger than I feel.",
+        "Hard seasons are not permanent. This too will pass.",
+        "I refuse to measure my worth by temporary struggles.",
+        "I will not compare my journey to others. My path is my own.",
+        "I choose persistence over surrender, growth over fear, and hope over hopelessness.",
+        "I may bend under pressure, but I will never completely give up on myself.",
+        "The way someone treated me is not a measurement of my value. Their behavior speaks about them.",
+        "I will not spend my life proving my worth to people who failed to see it.",
+        "Bad seasons pass. Failures teach. Pain changes shape.",
+        "My current situation is not permanent. I am becoming someone I will be proud of.",
+        "Every small step I take matters. Progress is still progress.",
+        "I do not need to be bitter to become strong. I choose healing and growth.",
+        "One day, these struggles will be the reason I am disciplined, calm, and mentally tough.",
+        "I will build a life so strong that my peace no longer depends on how others treat me.",
+        "The quiet people who suffer deeply often build the strongest foundations.",
+        "I am not my failures. I am not my past. I am a person learning to rise again.",
+        "I can do all things through Christ who strengthens me. That includes this moment.",
+        "I am allowed to rest. I am allowed to not be okay. But I will not abandon myself.",
+        "I am still here. That means hope is not gone.",
+        "My value was not given to me by people, so they cannot take it away.",
+        "One small win today is enough. Just breathe and survive.",
+        "The God who kept me until now will not drop me in the middle of my story.",
+        "I am becoming dangerous in a good way: focused, resilient, and hard to break."
+    ];
+
+    const sayingsGrid = document.getElementById('sayingsGrid');
+    
+    function buildSayingsGrid() {
+        sayingsGrid.innerHTML = '';
+        sayingsList.forEach((saying, idx) => {
+            const card = document.createElement('div');
+            card.className = 'saying-card';
+            card.innerHTML = `
+                <div class="saying-text">
+                    <i class="fas fa-feather-alt saying-icon"></i> 
+                    ${saying}
+                </div>
+            `;
+            sayingsGrid.appendChild(card);
+        });
+    }
+    buildSayingsGrid();
+
+    // Random saying button
+    const randomBtn = document.getElementById('randomSayingBtn');
+    randomBtn.addEventListener('click', () => {
+        const randomIndex = Math.floor(Math.random() * sayingsList.length);
+        const randomSaying = sayingsList[randomIndex];
+        // create floating toast notification
+        const toast = document.createElement('div');
+        toast.style.position = 'fixed';
+        toast.style.bottom = '30px';
+        toast.style.left = '50%';
+        toast.style.transform = 'translateX(-50%)';
+        toast.style.backgroundColor = '#1f2645';
+        toast.style.backdropFilter = 'blur(20px)';
+        toast.style.color = '#FFE3AA';
+        toast.style.padding = '16px 28px';
+        toast.style.borderRadius = '60px';
+        toast.style.border = '1px solid #ffad60';
+        toast.style.fontWeight = 'bold';
+        toast.style.zIndex = '999';
+        toast.style.maxWidth = '90%';
+        toast.style.textAlign = 'center';
+        toast.style.fontSize = '1rem';
+        toast.style.boxShadow = '0 10px 25px rgba(0,0,0,0.5)';
+        toast.innerHTML = `<i class="fas fa-heart" style="margin-right: 10px;"></i> ${randomSaying}`;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 5500);
+    });
+
+    // Crisis help modal
+    const crisisBtn = document.getElementById('crisisHelpBtn');
+    crisisBtn.addEventListener('click', () => {
+        let modal = document.createElement('div');
+        modal.style.position = 'fixed';
+        modal.style.top = '0';
+        modal.style.left = '0';
+        modal.style.width = '100%';
+        modal.style.height = '100%';
+        modal.style.backgroundColor = 'rgba(0,0,0,0.88)';
+        modal.style.backdropFilter = 'blur(8px)';
+        modal.style.zIndex = '2000';
+        modal.style.display = 'flex';
+        modal.style.alignItems = 'center';
+        modal.style.justifyContent = 'center';
+        modal.innerHTML = `
+            <div style="background: #141c2c; max-width: 420px; margin: 20px; padding: 32px; border-radius: 48px; text-align: center; border: 1px solid #ffb347;">
+                <i class="fas fa-phone-volume" style="font-size: 3rem; color: #ffaa55;"></i>
+                <h2 style="color: #ffe2aa; margin: 20px 0 10px;">You don't have to be alone</h2>
+                <p style="margin-bottom: 25px;">Talking to someone who understands can save a life — including yours. Please reach out.</p>
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <a href="https://988lifeline.org/" target="_blank" style="background: #ff9f4a; padding: 12px; border-radius: 60px; color: #0a0f1c; text-decoration: none; font-weight: bold;">🇺🇸 988 Suicide & Crisis Lifeline</a>
+                    <a href="https://findahelpline.com/" target="_blank" style="background: #2a3655; padding: 12px; border-radius: 60px; color: #ffd966; text-decoration: none;">🌍 Find a Helpline (International)</a>
+                    <button id="closeModalBtn" style="background: transparent; border: 1px solid #ffb86c; padding: 10px; border-radius: 40px; color: #ffc285; margin-top: 10px; cursor: pointer;">Close</button>
+                </div>
+                <p style="font-size: 0.75rem; margin-top: 20px;">You are not a burden. You matter deeply.</p>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        document.getElementById('closeModalBtn').addEventListener('click', () => modal.remove());
+        modal.addEventListener('click', (e) => { if(e.target === modal) modal.remove(); });
+    });
+
+    // Embers animation
+    function createEmbers() {
+        const container = document.getElementById('emberContainer');
+        for (let i = 0; i < 70; i++) {
+            const ember = document.createElement('div');
+            ember.classList.add('ember');
+            let size = Math.random() * 8 + 2;
+            ember.style.width = size + 'px';
+            ember.style.height = size + 'px';
+            ember.style.left = Math.random() * 100 + '%';
+            ember.style.animationDelay = Math.random() * 8 + 's';
+            ember.style.animationDuration = Math.random() * 9 + 5 + 's';
+            ember.style.background = `rgba(255, ${Math.floor(120 + Math.random() * 100)}, 50, 0.6)`;
+            container.appendChild(ember);
+        }
+    }
+    createEmbers();
+
+    // welcome message to show strength
+    setTimeout(() => {
+        const note = document.createElement('div');
+        note.style.position = 'fixed';
+        note.style.top = '20px';
+        note.style.right = '20px';
+        note.style.background = '#00000088';
+        note.style.backdropFilter = 'blur(12px)';
+        note.style.padding = '8px 16px';
+        note.style.borderRadius = '40px';
+        note.style.fontSize = '0.8rem';
+        note.style.color = '#ffdd99';
+        note.style.zIndex = '99';
+        note.innerHTML = '❤️ You are still fighting. That is victory.';
+        document.body.appendChild(note);
+        setTimeout(() => note.remove(), 6000);
+    }, 1200);
+</script>
+</body>
+</html>
