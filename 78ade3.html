@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Evening Prayer - Resting in God's Peace</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0b1a3a, #1a2a4f, #2c3e66, #1b2b49);
+            color: #eef4ff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Stars & night sky effect */
+        .night-sky {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 8px rgba(255,255,200,0.8);
+            animation: twinkle 3s infinite alternate;
+            opacity: 0.6;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.2; transform: scale(1);}
+            100% { opacity: 1; transform: scale(1.2);}
+        }
+
+        .crescent {
+            position: absolute;
+            top: 30px;
+            right: 50px;
+            font-size: 70px;
+            opacity: 0.3;
+            z-index: 1;
+            animation: floatMoon 8s infinite ease-in-out;
+        }
+
+        @keyframes floatMoon {
+            0% { transform: translateY(0px);}
+            50% { transform: translateY(15px);}
+            100% { transform: translateY(0px);}
+        }
+
+        /* gentle falling petals / night blessings */
+        .night-petal {
+            position: absolute;
+            color: rgba(210, 180, 240, 0.5);
+            font-size: 1.2rem;
+            pointer-events: none;
+            animation: fallNight 14s linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes fallNight {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 0;}
+            10% { opacity: 0.6;}
+            90% { opacity: 0.4;}
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0;}
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px 0 10px;
+            animation: fadeInUp 1.5s ease;
+        }
+
+        .prayer-title {
+            font-size: 3rem;
+            color: #c9e4ff;
+            text-shadow: 0 0 20px rgba(100, 150, 255, 0.7);
+            letter-spacing: 2px;
+        }
+
+        .prayer-sub {
+            font-size: 1.1rem;
+            background: rgba(255,255,245,0.1);
+            display: inline-block;
+            padding: 6px 22px;
+            border-radius: 60px;
+            backdrop-filter: blur(5px);
+            margin-top: 12px;
+        }
+
+        .prayer-card {
+            background: rgba(10, 25, 55, 0.55);
+            backdrop-filter: blur(14px);
+            border-radius: 48px;
+            padding: 35px 30px;
+            margin: 30px auto;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(210, 225, 255, 0.3);
+            transition: all 0.2s;
+        }
+
+        .prayer-section {
+            margin-bottom: 38px;
+            border-left: 5px solid #b8c7ff;
+            padding-left: 25px;
+        }
+
+        .section-title {
+            font-size: 1.7rem;
+            font-weight: bold;
+            color: #ffe0a3;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title i {
+            font-size: 1.7rem;
+            color: #ffcf8a;
+        }
+
+        .prayer-text {
+            font-size: 1.12rem;
+            line-height: 1.7;
+            margin-bottom: 10px;
+            text-align: justify;
+        }
+
+        .verse-ref {
+            font-style: italic;
+            color: #cbd5ff;
+            margin-top: 12px;
+            font-size: 0.92rem;
+            border-top: 1px dashed rgba(200, 210, 255, 0.3);
+            padding-top: 12px;
+        }
+
+        .closing-amen {
+            text-align: center;
+            margin-top: 45px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ffecb3;
+            text-shadow: 0 0 10px #2c3e66;
+        }
+
+        .rest-verse {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 38px;
+            padding: 20px;
+            margin-top: 25px;
+            text-align: center;
+            font-size: 1.2rem;
+            border: 1px solid rgba(255,255,200,0.2);
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(12px);
+            border-radius: 50px;
+            padding: 8px 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 100;
+            border: 1px solid rgba(170, 200, 255, 0.6);
+        }
+
+        .music-control {
+            background: #5f7fbf;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+
+        @media (max-width: 700px) {
+            .prayer-title { font-size: 2.4rem; }
+            .section-title { font-size: 1.45rem; }
+            .prayer-text { font-size: 1rem; }
+            .prayer-card { padding: 28px 18px; }
+            .crescent { font-size: 45px; right: 20px; top: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="night-sky" id="nightSky"></div>
+<div class="crescent">🌙✨</div>
+
+<div class="container">
+    <header>
+        <h1 class="prayer-title">🌙 EVENING PRAYER</h1>
+        <div class="prayer-sub">Rest in the Shadow of the Almighty • Peace for the Night</div>
+    </header>
+
+    <div class="prayer-card">
+        <!-- ADORATION -->
+        <div class="prayer-section">
+            <div class="section-title"><i class="fas fa-crown"></i> ADORATION – Praising God Who Never Sleeps</div>
+            <div class="prayer-text">
+                “O LORD, Lord of heaven and earth, You are the God who neither slumbers nor sleeps (<strong>Psalm 121:4</strong>). You are my refuge and my fortress, my God in whom I trust (<strong>Psalm 91:2</strong>). As the darkness falls, I lift my eyes to You, for my help comes from You alone. Holy, holy, holy is the Lord Almighty; the whole earth is full of Your glory (<strong>Isaiah 6:3</strong>).”
+            </div>
+            <div class="verse-ref">📖 Psalm 121:3-4 – “He who watches over Israel will neither slumber nor sleep.”</div>
+        </div>
+
+        <!-- THANKSGIVING -->
+        <div class="prayer-section">
+            <div class="section-title"><i class="fas fa-leaf"></i> THANKSGIVING – Counting the Day’s Blessings</div>
+            <div class="prayer-text">
+                “Father, I thank You for this day – for breath, for strength, for bread on my table, and for the unseen ways You protected me. Thank You for moments of joy, for laughter shared, for work completed, and for grace to endure what was hard. <strong>‘Give thanks to the Lord, for He is good; His love endures forever’</strong> (<strong>Psalm 118:1</strong>). I receive this day as a gift from Your hand.”
+            </div>
+            <div class="verse-ref">📖 1 Thessalonians 5:18 – “Give thanks in all circumstances; for this is the will of God in Christ Jesus for you.”</div>
+        </div>
+
+        <!-- CONFESSION -->
+        <div class="prayer-section">
+            <div class="section-title"><i class="fas fa-water"></i> CONFESSION – Seeking Forgiveness and Cleansing</div>
+            <div class="prayer-text">
+                “Search me, O God, and know my heart; test me and know my anxious thoughts (<strong>Psalm 139:23</strong>). In silence, I bring before You my sins of this day:<br>
+                — Forgive me for the words I spoke in haste…<br>
+                — Forgive me for the love I withheld…<br>
+                — Forgive me for the trust I placed in worry instead of in You…<br>
+                <strong>‘If we confess our sins, You are faithful and just to forgive us and cleanse us from all unrighteousness’</strong> (<strong>1 John 1:9</strong>). Lord Jesus, wash me in Your blood. Do not let any hidden fault rule over me, but make me clean.”
+            </div>
+            <div class="verse-ref">📖 Psalm 51:2 – “Wash me thoroughly from my iniquity, and cleanse me from my sin!”</div>
+        </div>
+
+        <!-- PETITION – Protection and Peace for the Night -->
+        <div class="prayer-section">
+            <div class="section-title"><i class="fas fa-shield-halbed"></i><i class="fas fa-shield-alt"></i> PETITION – Asking for Protection and Peace</div>
+            <div class="prayer-text">
+                “Grant me safe lodging this night. Place Your holy angels around my home (<strong>Psalm 34:7</strong>). Guard my mind from nightmares, my body from harm, and my heart from the fear of darkness.<br>
+                <strong>‘I will both lay me down in peace and sleep, for You alone, O Lord, make me dwell in safety’</strong> (<strong>Psalm 4:8</strong>).<br>
+                Father, I also lift up those I love: <em>(name them silently in your heart)</em>. Surround them with Your favor. For anyone in pain, sickness, or sorrow this night – be their comfort. And if I should not wake until the morning of resurrection, then let me wake in Your presence.”
+            </div>
+            <div class="verse-ref">📖 Psalm 3:5 – “I lie down and sleep; I wake again, because the Lord sustains me.”</div>
+        </div>
+
+        <!-- SURRENDER -->
+        <div class="prayer-section">
+            <div class="section-title"><i class="fas fa-hands-helping"></i> SURRENDER – Resting in God’s Sovereignty</div>
+            <div class="prayer-text">
+                “Into Your hands I commit my spirit (<strong>Luke 23:46</strong> – words of Jesus on the cross, and also <strong>Psalm 31:5</strong>). I cannot add a single hour to my life by worrying (<strong>Matthew 6:27</strong>), so I release tomorrow into Your care. Whatever comes – joy or trial – let me face it with Your peace. You are with me. Your rod and Your staff, they comfort me (<strong>Psalm 23:4</strong>).”
+            </div>
+            <div class="verse-ref">📖 Proverbs 3:24 – “When you lie down, you will not be afraid; when you lie down, your sleep will be sweet.”</div>
+        </div>
+
+        <!-- CLOSING – The Word as a Shield -->
+        <div class="prayer-section">
+            <div class="section-title"><i class="fas fa-bible"></i> CLOSING – The Word of God as a Final Shield</div>
+            <div class="prayer-text">
+                <em>“He who dwells in the shelter of the Most High will rest in the shadow of the Almighty”</em> (<strong>Psalm 91:1</strong>).<br><br>
+                “Lord Jesus, You are the Light of the World. As I close my eyes, keep me in Your light even in sleep. Let the words of my mouth and the meditation of my heart be acceptable in Your sight, O Lord, my Rock and my Redeemer (<strong>Psalm 19:14</strong>).”
+            </div>
+            <div class="verse-ref">📖 Psalm 4:8 – “In peace I will lie down and sleep, for you alone, Lord, make me dwell in safety.”</div>
+        </div>
+
+        <div class="closing-amen">
+            <i class="fas fa-moon"></i> In the name of the Father, and of the Son, and of the Holy Spirit. <strong>Amen.</strong>
+        </div>
+
+        <div class="rest-verse">
+            🌙 WHISPER THIS AS YOU LAY DOWN: <em>“Be at rest once more, O my soul, for the Lord has been good to you.”</em> — <strong>Psalm 116:7</strong>
+        </div>
+    </div>
+    <footer>
+        <i class="fas fa-cloud-moon"></i> May the Lord bless your sleep and grant you His perfect peace. <br> “When you lie down, your sleep will be sweet.” — Proverbs 3:24
+    </footer>
+</div>
+
+<!-- Soft night ambient / piano music -->
+<div class="music-player">
+    <div class="music-control" id="playPauseNight">
+        <i id="nightIcon" class="fas fa-play"></i>
+    </div>
+    <span style="font-size: 0.8rem;">🎵 Night Whispers</span>
+</div>
+<audio id="nightAudio" loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/05/09/audio_1802f8a6c3.mp3?filename=calm-piano-10371.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+    // Create starry night + floating blessings (petals / soft shimmer)
+    function createNightStars() {
+        const nightContainer = document.getElementById('nightSky');
+        // stars
+        for (let i = 0; i < 180; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            const size = Math.random() * 3 + 1;
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 5 + 's';
+            star.style.animationDuration = (Math.random() * 2 + 1.5) + 's';
+            star.style.opacity = Math.random() * 0.7 + 0.2;
+            nightContainer.appendChild(star);
+        }
+        // floating night petals / blessings (flowers from the day surrendered)
+        const petals = ['🌸', '🌙', '✨', '⭐', '🕊️', '🌿', '🍃', '💫'];
+        for (let i = 0; i < 70; i++) {
+            const petal = document.createElement('div');
+            petal.classList.add('night-petal');
+            petal.innerHTML = petals[Math.floor(Math.random() * petals.length)];
+            petal.style.left = Math.random() * 100 + '%';
+            petal.style.fontSize = (Math.random() * 18 + 12) + 'px';
+            petal.style.animationDuration = (Math.random() * 12 + 8) + 's';
+            petal.style.animationDelay = (Math.random() * 10) + 's';
+            petal.style.opacity = Math.random() * 0.5 + 0.2;
+            nightContainer.appendChild(petal);
+        }
+    }
+
+    // Music player for evening (gentle)
+    function setupEveningMusic() {
+        const audio = document.getElementById('nightAudio');
+        const playBtn = document.getElementById('playPauseNight');
+        const icon = document.getElementById('nightIcon');
+        if (audio) {
+            audio.volume = 0.15;  // very soft for night
+            let interacted = false;
+            const initAudio = () => {
+                if(!interacted) {
+                    audio.play().catch(e => console.log("autoplay prevented"));
+                    icon.classList.remove('fa-play');
+                    icon.classList.add('fa-pause');
+                    interacted = true;
+                }
+            };
+            document.body.addEventListener('click', initAudio, { once: true });
+            playBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (audio.paused) {
+                    audio.play();
+                    icon.classList.remove('fa-play');
+                    icon.classList.add('fa-pause');
+                } else {
+                    audio.pause();
+                    icon.classList.remove('fa-pause');
+                    icon.classList.add('fa-play');
+                }
+            });
+        }
+    }
+
+    createNightStars();
+    setupEveningMusic();
+
+    // additional small blessing: console peace reminder
+    console.log("%c🌙 The Lord is your keeper. Sleep in peace! 🌙", "color: #aac9ff; font-size: 14px;");
+</script>
+</body>
+</html>
